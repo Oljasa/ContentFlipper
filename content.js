@@ -65,6 +65,18 @@ function handleClick(e) {
   const element = document.elementFromPoint(e.clientX, e.clientY);
   if (element) {
     flipElement(element);
+    // Disable selection mode after flipping
+    isSelectionMode = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('click', handleClick, true);
+    updateHighlight(null);
+    highlightedElement = null;
+    console.log('Selection mode disabled after flip');
+    
+    // Notify background script that selection mode was disabled
+    chrome.runtime.sendMessage({
+      action: 'selectionModeDisabled'
+    });
   }
 }
 

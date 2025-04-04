@@ -18,4 +18,13 @@ chrome.action.onClicked.addListener(async (tab) => {
   } catch (error) {
     console.error('Error:', error);
   }
+});
+
+// Listen for messages from content script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'selectionModeDisabled') {
+    isSelectionMode = false;
+    sendResponse({ received: true });
+  }
+  return true;
 }); 
